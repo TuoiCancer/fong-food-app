@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cateItem"
+    android:backgroundTint="#f5f5f5"
+    >
+
+    <TextView
+        android:id="@+id/catetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/rounded_corner_yellow"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp"
+        android:text="Food"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+</androidx.cardview.widget.CardView>

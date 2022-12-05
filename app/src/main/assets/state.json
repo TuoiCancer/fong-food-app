@@ -1,0 +1,77 @@
+{
+  "statelist": [
+    {
+      "id": 1,
+      "State": "Bắc Từ Liêm"
+    },
+    {
+      "id": 2,
+      "State": "Hoàn Kiếm"
+    },
+    {
+      "id": 3,
+      "State": "Đống Đa"
+    },
+    {
+      "id": 4,
+      "State": "Ba Đình"
+    },
+    {
+      "id": 5,
+      "State": "Hai Bà Trưng"
+    },
+    {
+      "id": 6,
+      "State": "Hoàng Mai"
+    },
+    {
+      "id": 7,
+      "State": "Long Biên"
+    },
+    {
+      "id": 8,
+      "State": "Nam Từ Liêm"
+    },
+    {
+      "id": 9,
+      "State": "Cầu Giấy"
+    },
+    {
+      "id": 10,
+      "State": "Hà Đông"
+    },
+    {
+      "id": 11,
+      "State": "Sơn Tây"
+    },
+    {
+      "id": 12,
+      "State": "Ba Vì"
+    },
+    {
+      "id": 13,
+      "State": "Chương Mỹ"
+    },
+    {
+      "id": 14,
+      "State": "Ứng Hòa"
+    },
+    {
+      "id": 15,
+      "State": "Thanh Trì"
+    },
+    {
+      "id": 16,
+      "State": "Sóc Sơn"
+    },
+    {
+      "id": 17,
+      "State": "Quốc Oai"
+    },
+    {
+      "id": 18,
+      "State": "Phú Xuyên"
+    }
+
+  ]
+}

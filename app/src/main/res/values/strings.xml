@@ -1,0 +1,44 @@
+<resources>
+    <!--
+   * Grocery App
+   * https://github.com/quintuslabs/GroceryStore
+   * Created on 18-Feb-2019.
+   * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
+   -->
+    <string name="app_name">Fong Food</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="email">Email</string>
+    <string name="passowrd">Mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="show_pwd">Hiện mật khẩu</string>
+    <string name="hide_pwd">Ẩn mật khẩu</string>
+    <string name="forgot">Quên mật khẩu?</string>
+    <string name="closebutton">Close Button for Activity</string>
+    <string name="newUser">Chưa có tài khoản? Đăng kí tại đây.</string>
+    <string name="fullName">Họ tên</string>
+    <string name="address">Địa chỉ</string>
+    <string name="mobileNumber">Số điện thoại</string>
+    <string name="location">Vị trí</string>
+    <string name="confirmPassword">Nhập lại mật khẩu</string>
+    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
+    <string name="signUp">Đăng kí</string>
+    <string name="already_user">Đã có tài khoản? Đăng nhập tại đây.</string>
+    <string name="registered_emailid">Please enter your Registered Email Id below:</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
+    <string name="action_Cart">Giỏ hàng</string>
+    <string name="registered_mobile_number">Please Enter Register Mobile Number</string>
+    <string name="reset_code">Reset Code</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="order_item_details">Your Order Details</string>
+</resources>

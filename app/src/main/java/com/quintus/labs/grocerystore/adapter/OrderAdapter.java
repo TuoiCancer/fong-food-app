@@ -33,12 +33,6 @@ import retrofit2.Response;
 
 import static com.quintus.labs.grocerystore.activity.BaseActivity.TAG;
 
-/**
- * Grocery App
- * https://github.com/quintuslabs/GroceryStore
- * Created on 18-Feb-2019.
- * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
- */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
     List<Order> orderList;
@@ -67,9 +61,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_order, parent, false);
-
         return new MyViewHolder(itemView);
-
 
     }
 
@@ -107,24 +99,24 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
         recyclerView = dialog.findViewById(R.id.order_list);
 
-        Call<OrdersResult> call = RestClient.getRestService(context).getOrderItems(orderItem);
-        call.enqueue(new Callback<OrdersResult>() {
-            @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                orderItemList = response.body().getOrderItemList();
-                orderItemAdapter = new OrderItemAdapter(orderItemList, context);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(orderItemAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
-                Log.d(TAG, "errorResponse:==>" + t.getMessage());
-            }
-        });
+//        Call<OrdersResult> call = RestClient.getRestService(context).getOrderItems(orderItem);
+//        call.enqueue(new Callback<OrdersResult>() {
+//            @Override
+//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
+//                orderItemList = response.body().getOrderItemList();
+//                orderItemAdapter = new OrderItemAdapter(orderItemList, context);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+//                recyclerView.setLayoutManager(mLayoutManager);
+//                recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                recyclerView.setAdapter(orderItemAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrdersResult> call, Throwable t) {
+//                Log.d(TAG, "errorResponse:==>" + t.getMessage());
+//            }
+//        });
 
 
         // if button is clicked, close the custom dialog

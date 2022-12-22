@@ -1,17 +1,15 @@
 package com.quintus.labs.grocerystore.model;
 
-
+// 1 cart chứa thông tin về số lượng sản phẩm mà người dùng muốn mua và thông tin của sản phẩm đó
 public class Cart {
     String id;
     String image;
-    int imgUrl;
     String title;
     String currency;
     String price;
     String attribute;
     String quantity;
     String subTotal;
-
 
     public Cart() {
     }
@@ -26,27 +24,6 @@ public class Cart {
         this.attribute = attribute;
         this.quantity = quantity;
         this.subTotal = subTotal;
-    }
-
-
-    public Cart(String id, String title, int imgUrl, String currency, String price, String attribute, String quantity, String subTotal) {
-        this.id = id;
-        this.imgUrl = imgUrl;
-        this.title = title;
-        this.currency = currency;
-        this.price = price;
-        this.attribute = attribute;
-        this.quantity = quantity;
-        this.subTotal = subTotal;
-    }
-
-
-    public int getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(int imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
     public String getId() {

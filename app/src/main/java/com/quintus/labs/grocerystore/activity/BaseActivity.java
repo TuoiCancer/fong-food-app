@@ -58,7 +58,6 @@ public class BaseActivity extends AppCompatActivity implements AddorRemoveCallba
             }.getType();
             cartList = gson.fromJson(jsonCart, type);
 
-
             //Toast.makeText(getContext(),remedyList.size()+"",Toast.LENGTH_LONG).show();
             return cartList.size();
         }

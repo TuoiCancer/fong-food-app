@@ -49,8 +49,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         TextView desc = view.findViewById(R.id.description);
         desc.setText(description[position]);
 
-
-
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);
         return view;

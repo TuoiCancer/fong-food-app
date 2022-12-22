@@ -28,10 +28,10 @@ import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Converter;
 import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Category;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.myModel.ProductResult;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ProductActivity extends BaseActivity {
     Token token;
     String categoryName;
     Category category;
-    List<Product> productList = new ArrayList<>();
+    List<MyProduct> myProductList = new ArrayList<>();
     ProductAdapter mAdapter;
     private RecyclerView recyclerView;
 
@@ -88,38 +88,42 @@ public class ProductActivity extends BaseActivity {
     }
 
     private void getCategoryProduct() {
-        productList.add(new Product("01","fruit","Dứa","Dứa có các tên gọi khác như là: khóm, thơm, khớm, gai hoặc huyền nương, tên khoa học Ananas comosus, là một loại quả nhiệt đới. ",
-                "1 quả","VND","12.000","16.000",R.drawable.qua_dua,"product"));
         setUpRecyclerView();
-        //        showProgressDialog();
-//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).getCategoryProduct(category);
-//        call.enqueue(new Callback<ProductResult>() {
-//            @Override
-//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    ProductResult productResult = response.body();
-//                    if (productResult.getCode() == 200) {
-//
-//                        productList = productResult.getProductList();
-//                        setUpRecyclerView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductResult> call, Throwable t) {
-//                Log.d("Error", t.getMessage());
-//                hideProgressDialog();
-//
-//            }
-//        });
+        retrofit2.Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).
+                getAllProductByCategory(getRandomNumber(1,5));
+        call.enqueue(new Callback<ProductResult>() {
+            @Override
+            public void onResponse(retrofit2.Call<ProductResult> call, Response<ProductResult> response) {
 
+                if (response != null) {
+
+                    ProductResult productResult = response.body();
+                    if (productResult.getStatus() == 200) {
+                        myProductList = productResult.getProductList();
+//                        Log.d("popMyProductList :=>", myProductList + "");
+                        for(int i=0;i<myProductList.size();i++){
+                            myProductList.get(i).setAttribute("unit");
+                            myProductList.get(i).setCurrency("VND");
+                            myProductList.get(i).setPrice(String.valueOf(Integer.parseInt(myProductList.get(i).getDiscount())+ 30000));
+                            myProductList.get(i).setHomepage("category");
+                        }
+                        setUpRecyclerView();
+                    }
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ProductResult> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
     private void hideProgressDialog() {
@@ -156,7 +160,7 @@ public class ProductActivity extends BaseActivity {
 
     private void setUpRecyclerView() {
 
-        mAdapter = new ProductAdapter(productList, ProductActivity.this, Tag);
+        mAdapter = new ProductAdapter(myProductList, ProductActivity.this, Tag);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -166,7 +170,7 @@ public class ProductActivity extends BaseActivity {
 
     private void setUpGridRecyclerView() {
 
-        mAdapter = new ProductAdapter(productList, ProductActivity.this, Tag);
+        mAdapter = new ProductAdapter(myProductList, ProductActivity.this, Tag);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -7,6 +7,13 @@ public class User {
     String password;
     String address;
     String role;
+    String city;
+    String state;
+    String zip;
+    String token;
+    String fname;
+    String id;
+
 //    String avatar_id;
 
 
@@ -33,6 +40,55 @@ public class User {
         this.password = password;
         this.address = address;
         this.role = role;
+    }
+
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
     public String getName() {

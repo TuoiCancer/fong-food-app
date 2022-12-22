@@ -42,7 +42,7 @@ import com.quintus.labs.grocerystore.fragment.OffrersFragment;
 import com.quintus.labs.grocerystore.fragment.PopularProductFragment;
 import com.quintus.labs.grocerystore.fragment.ProfileFragment;
 import com.quintus.labs.grocerystore.helper.Converter;
-import com.quintus.labs.grocerystore.model.Product;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int cart_count = 0;
     User user;
-    List<Product> productList = new ArrayList<>();
+    List<MyProduct> myProductList = new ArrayList<>();
     SearchAdapter mAdapter;
     private RecyclerView recyclerView;
 
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity
                     // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                     if (s.length() == 0) {
                         recyclerView.setVisibility(View.GONE);
-                        productList = new ArrayList<>();
+                        myProductList = new ArrayList<>();
                     } else {
                         getSearchProduct(s);
                     }
@@ -139,44 +139,44 @@ public class MainActivity extends BaseActivity
     }
 
     private void getSearchProduct(String query) {
-        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
-        call.enqueue(new Callback<ProductResult>() {
-            @Override
-            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
-
-                        productList = productResult.getProductList();
-                        setUpRecyclerView();
-
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-
-
-            }
-        });
+//        Call<ProductResult> call = RestClient.getRestService(getApplicationContext()).searchProduct(query);
+//        call.enqueue(new Callback<ProductResult>() {
+//            @Override
+//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    ProductResult productResult = response.body();
+//                    if (productResult.getCode() == 200) {
+//
+//                        myProductList = productResult.getProductList();
+//                        setUpRecyclerView();
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductResult> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//
+//
+//            }
+//        });
 
     }
 
     private void setUpRecyclerView() {
-        if (productList.size() > 0) {
+        if (myProductList.size() > 0) {
             recyclerView.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.GONE);
         }
 
-        mAdapter = new SearchAdapter(productList, MainActivity.this);
+        mAdapter = new SearchAdapter(myProductList, MainActivity.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -244,7 +244,7 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 localStorage.logoutUser();
-                startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                 // Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_LONG).show();

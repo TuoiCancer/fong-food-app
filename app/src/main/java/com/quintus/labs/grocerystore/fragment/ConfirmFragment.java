@@ -82,7 +82,7 @@ public class ConfirmFragment extends Fragment {
         orderList = ((BaseActivity) getActivity()).getOrderList();
         cartList = ((BaseActivity) getContext()).getCartList();
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-//        address = user.getAddress() + "," + user.getCity() + "," + user.getState() + "," + user.getZip();
+        address = user.getAddress() + "," + user.getCity() + "," + user.getState() + "," + user.getZip();
 
         for (int i = 0; i < cartList.size(); i++) {
 
@@ -90,8 +90,7 @@ public class ConfirmFragment extends Fragment {
             orderItemList.add(orderItem);
         }
 
-//        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), address, user.getId(), orderItemList);
-
+        confirmOrder = new PlaceOrder(user.getToken(), user.getFname(), " ", user.getMobile(), user.getCity(), address, orderItemList);
 
         _total = ((BaseActivity) getActivity()).getTotalPrice();
         _shipping = 0.0;
@@ -123,29 +122,37 @@ public class ConfirmFragment extends Fragment {
         progressDialog.setMessage("Confirming Order...");
         progressDialog.show();
         Log.d("Confirm Order==>", gson.toJson(confirmOrder));
-        Call<OrdersResult> call = RestClient.getRestService(getContext()).confirmPlaceOrder(confirmOrder);
-        call.enqueue(new Callback<OrdersResult>() {
-            @Override
-            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
-                Log.d("respose==>", response.body().getCode() + "");
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        localStorage.deleteCart();
+                        showCustomDialog();
+                    }
+                }, 2000);
 
-                OrdersResult ordersResult = response.body();
-
-                if (ordersResult.getCode() == 200) {
-                    localStorage.deleteCart();
-                    showCustomDialog();
-                }
-
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<OrdersResult> call, Throwable t) {
-                Log.d("Error respose==>", t.getMessage() + "");
-                progressDialog.dismiss();
-            }
-        });
-
+//        Call<OrdersResult> call = RestClient.getRestService(getContext()).confirmPlaceOrder(confirmOrder);
+//        call.enqueue(new Callback<OrdersResult>() {
+//            @Override
+//            public void onResponse(Call<OrdersResult> call, Response<OrdersResult> response) {
+//                Log.d("respose==>", response.body().getCode() + "");
+//
+//                OrdersResult ordersResult = response.body();
+//
+//                if (ordersResult.getCode() == 200) {
+//                    localStorage.deleteCart();
+//                    showCustomDialog();
+//                }
+//
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrdersResult> call, Throwable t) {
+//                Log.d("Error respose==>", t.getMessage() + "");
+//                progressDialog.dismiss();
+//            }
+//        });
+//
 
     }
 

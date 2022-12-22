@@ -6,25 +6,25 @@ import java.util.List;
 
 public class ProductResult {
     @SerializedName("products")
-    List<Product> productList;
+    List<Product> myProductList;
     @SerializedName("code")
     int code;
     @SerializedName("status")
     String status;
 
 
-    public ProductResult(List<Product> productList, int code, String status) {
-        this.productList = productList;
+    public ProductResult(List<Product> myProductList, int code, String status) {
+        this.myProductList = myProductList;
         this.code = code;
         this.status = status;
     }
 
     public List<Product> getProductList() {
-        return productList;
+        return myProductList;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setProductList(List<Product> myProductList) {
+        this.myProductList = myProductList;
     }
 
     public int getCode() {

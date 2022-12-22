@@ -14,30 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.ProductViewActivity;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Grocery App
- * https://github.com/quintuslabs/GroceryStore
- * Created on 18-Feb-2019.
- * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
- */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
 
-    List<Product> productList;
+    List<MyProduct> myProductList;
     Context context;
 
-    public SearchAdapter(List<Product> productList, Context context) {
-        this.productList = productList;
+    public SearchAdapter(List<MyProduct> myProductList, Context context) {
+        this.myProductList = myProductList;
         this.context = context;
     }
 
-    public SearchAdapter(List<Product> productList, Context context, String tag) {
-        this.productList = productList;
+    public SearchAdapter(List<MyProduct> myProductList, Context context, String tag) {
+        this.myProductList = myProductList;
         this.context = context;
     }
 
@@ -55,25 +48,25 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        final Product product = productList.get(position);
+        final MyProduct myProduct = myProductList.get(position);
 
-        holder.title.setText(product.getName());
+        holder.title.setText(myProduct.getName());
 
-        if (product.getImage() != null) {
-            Picasso.get().load( product.getImgUrl()).into(holder.imageView);
+        if (myProduct.getImgProduct() != "") {
+            Picasso.get().load( myProduct.getImgProduct()).into(holder.imageView);
         }
         holder.row_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductViewActivity.class);
-                intent.putExtra("id", product.getId());
-                intent.putExtra("title", product.getName());
-                intent.putExtra("image", product.getImage());
-                intent.putExtra("price", product.getPrice());
-                intent.putExtra("currency", product.getCurrency());
-                intent.putExtra("attribute", product.getAttribute());
-                intent.putExtra("discount", product.getDiscount());
-                intent.putExtra("description", product.getDescription());
+                intent.putExtra("id", myProduct.getId());
+                intent.putExtra("title", myProduct.getName());
+                intent.putExtra("image", myProduct.getImgProduct());
+                intent.putExtra("price", myProduct.getPrice());
+                intent.putExtra("currency", myProduct.getCurrency());
+                intent.putExtra("attribute", myProduct.getAttribute());
+                intent.putExtra("discount", myProduct.getDiscount());
+                intent.putExtra("description", myProduct.getDescription());
 
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -86,7 +79,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public int getItemCount() {
 
-        return productList.size();
+        return myProductList.size();
     }
 
     @Override

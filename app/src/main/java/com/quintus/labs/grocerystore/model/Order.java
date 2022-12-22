@@ -1,16 +1,10 @@
 package com.quintus.labs.grocerystore.model;
 
-/**
- * Grocery App
- * https://github.com/quintuslabs/GroceryStore
- * Created on 18-Feb-2019.
- * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
- */
 public class Order {
     String id;
     String user_id;
     String token;
-    String orderid;
+    String orderid; // this is productID
     String date;
     String itemname;
     String itemquantity;

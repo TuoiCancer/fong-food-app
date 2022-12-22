@@ -2,6 +2,7 @@ package com.quintus.labs.grocerystore.fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,11 @@ public class ProfileFragment extends Fragment {
         localStorage = new LocalStorage(getContext());
 
         User user = gson.fromJson(localStorage.getUserLogin(), User.class);
-        name.setText("Xuan Tuoi");
-        email.setText("xt@gmail.com");
-        mobile.setText("0329258739");
-        address.setText("Ha Tay");
+       name.setText(user.getName());
+       email.setText(user.getEmail());
+       mobile.setText(user.getMobile());
+       address.setText(user.getAddress());
+
 
         return view;
     }

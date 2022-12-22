@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -174,6 +175,7 @@ public class CartActivity extends BaseActivity {
     private void setUpCartRecyclerview() {
         cartList = new ArrayList<>();
         cartList = getCartList();
+        Log.d("Cart in thanh toan", String.valueOf(cartList));
         if (cartList.isEmpty()) {
             mState = "HIDE_MENU";
             invalidateOptionsMenu();

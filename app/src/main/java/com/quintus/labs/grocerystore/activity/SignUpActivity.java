@@ -2,7 +2,6 @@ package com.quintus.labs.grocerystore.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.quintus.labs.grocerystore.R;
-import com.quintus.labs.grocerystore.api.ApiService;
-import com.quintus.labs.grocerystore.api.RestService;
+import com.quintus.labs.grocerystore.MyApi.ApiService;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.myModel.UserResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;

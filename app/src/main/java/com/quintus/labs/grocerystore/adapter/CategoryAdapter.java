@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.activity.ProductActivity;
 import com.quintus.labs.grocerystore.model.Category;
+import com.quintus.labs.grocerystore.model.myModel.MyCategory;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -25,16 +26,16 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
-    List<Category> categoryList;
+    List<MyCategory> categoryList;
     Context context;
     String Tag;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
+    public CategoryAdapter(List<MyCategory> categoryList, Context context) {
         this.categoryList = categoryList;
         this.context = context;
     }
 
-    public CategoryAdapter(List<Category> categoryList, Context context, String tag) {
+    public CategoryAdapter(List<MyCategory> categoryList, Context context, String tag) {
         this.categoryList = categoryList;
         this.context = context;
         Tag = tag;
@@ -52,18 +53,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     .inflate(R.layout.row_category, parent, false);
         }
 
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-        final Category category = categoryList.get(position);
-        holder.title.setText(category.getCategry());
+        final MyCategory category = categoryList.get(position);
+        holder.title.setText(category.getName());
         if (Tag.equalsIgnoreCase("Category")) {
             Picasso.get()
-                    .load(category.getImgUrl())
+                    .load(category.getImgCate())
                     .into(holder.imageView, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -81,7 +81,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("category", category.getCategry());
+                intent.putExtra("category", category.getName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }
@@ -91,7 +91,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("category", category.getCategry());
+                intent.putExtra("category", category.getName());
+
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }

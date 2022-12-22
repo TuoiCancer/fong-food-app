@@ -18,10 +18,10 @@ import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.CategoryAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
-import com.quintus.labs.grocerystore.model.Category;
-import com.quintus.labs.grocerystore.model.CategoryResult;
+import com.quintus.labs.grocerystore.model.myModel.CategoryResult;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.myModel.MyCategory;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class CategoryFragment extends Fragment {
     Gson gson = new Gson();
     User user;
     Token token;
-    private List<Category> categoryList = new ArrayList<>();
+    private List<MyCategory> categoryList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CategoryAdapter mAdapter;
 
@@ -66,41 +66,39 @@ public class CategoryFragment extends Fragment {
 
     private void getCategoryData() {
 
-//        showProgressDialog();
+        showProgressDialog();
 
-        categoryList.add(new Category("Trái cây",R.drawable.apple,"fruit"));
-        categoryList.add(new Category("Bánh ngọt",R.drawable.cake,"cake"));
-        categoryList.add(new Category("Nước uống",R.drawable.drinks,"drink"));
-        categoryList.add(new Category("Rau củ",R.drawable.vegetables,"vegetable"));
-        categoryList.add(new Category("Trà",R.drawable.tea,"tea"));
-        setupCategoryRecycleView();
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).getAllCategory();
+        call.enqueue(new Callback<CategoryResult>() {
+            @Override
+            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
+                if (response != null) {
 
+                    CategoryResult categoryResult = response.body();
+                    if (categoryResult.getStatus() == 200) {
 
-//        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
-//        call.enqueue(new Callback<CategoryResult>() {
-//            @Override
-//            public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    CategoryResult categoryResult = response.body();
-//                    if (categoryResult.getCode() == 200) {
-//
-//                        categoryList = categoryResult.getCategoryList();
-//                        setupCategoryRecycleView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CategoryResult> call, Throwable t) {
-//                Log.d("Error==>", t.getMessage());
-//            }
-//        });
+                        categoryList = categoryResult.getCategoryList();
+
+                        categoryList.get(0).setImgCate("https://m.economictimes.com/thumb/msid-93337841,width-1200,height-900,resizemode-4,imgsize-130870/1-25.jpg");
+                        categoryList.get(1).setImgCate("https://cdn.quantrinhahang.edu.vn/wp-content/uploads/2019/06/fast-food-la-gi.jpg");
+                        categoryList.get(2).setImgCate("https://vn-test-11.slatic.net/p/eed436bd8431e03d499f1e1d831fb5f6.jpg");
+                        categoryList.get(3).setImgCate("https://statics.vinpearl.com/tra-sua-da-nang-01_1630901177.jpg");
+                        categoryList.get(4).setImgCate("https://images.healthshots.com/healthshots/en/uploads/2022/04/17151621/fruit-salad-1600x900.jpg");
+
+                        setupCategoryRecycleView();
+
+                    }
+
+                }
+
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResult> call, Throwable t) {
+                Log.d("Error==>", t.getMessage());
+            }
+        });
 
     }
 

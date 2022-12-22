@@ -17,19 +17,17 @@ public class PlaceOrder {
     String area;
     @SerializedName("address")
     String address;
-    @SerializedName("user_id")
-    String user_id;
+
     @SerializedName("orderitems")
     List<OrderItem> orderitems;
 
-    public PlaceOrder(String token, String fname, String lname, String mobile, String area, String address, String user_id, List<OrderItem> orderitems) {
+    public PlaceOrder(String token, String fname, String lname, String mobile, String area, String address, List<OrderItem> orderitems) {
         this.token = token;
         this.fname = fname;
         this.lname = lname;
         this.mobile = mobile;
         this.area = area;
         this.address = address;
-        this.user_id = user_id;
         this.orderitems = orderitems;
     }
 
@@ -92,11 +90,4 @@ public class PlaceOrder {
         this.orderitems = orderitems;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
 }

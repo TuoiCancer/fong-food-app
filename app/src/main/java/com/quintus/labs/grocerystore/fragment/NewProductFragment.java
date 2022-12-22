@@ -17,10 +17,10 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.NewProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.myModel.ProductResult;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -37,7 +37,8 @@ public class NewProductFragment extends Fragment {
     Gson gson = new Gson();
     User user;
     Token token;
-    List<Product> productList = new ArrayList<>();
+    List<MyProduct> myProductList = new ArrayList<>();
+    List<MyProduct> myNewProductList = new ArrayList<>();
     private NewProductAdapter pAdapter;
 
     public NewProductFragment() {
@@ -66,17 +67,30 @@ public class NewProductFragment extends Fragment {
 
     private void getNewProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
+        Call<ProductResult> call = RestClient.getRestService(getContext()).getAllProduct();
         call.enqueue(new Callback<ProductResult>() {
             @Override
             public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
+
                 if (response != null) {
 
                     ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    if (productResult.getStatus() == 200) {
+                        myProductList = productResult.getProductList();
+//                        Log.d("popMyProductList :=>", myProductList + "");
+                        for(int i=0;i<myProductList.size();i++){
+                            myProductList.get(i).setAttribute("unit");
+                            myProductList.get(i).setCurrency("VND");
+                            myProductList.get(i).setPrice(String.valueOf(Integer.parseInt(myProductList.get(i).getDiscount())+ 30000));
+                            myProductList.get(i).setHomepage("home");
+                        }
 
-                        productList = productResult.getProductList();
+                        myNewProductList.add(myProductList.get(19));
+                        myNewProductList.add(myProductList.get(18));
+                        myNewProductList.add(myProductList.get(17));
+                        myNewProductList.add(myProductList.get(16));
+                        myNewProductList.add(myProductList.get(15));
+
                         setupProductRecycleView();
 
                     }
@@ -88,15 +102,13 @@ public class NewProductFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-                hideProgressDialog();
 
             }
         });
     }
 
     private void setupProductRecycleView() {
-        pAdapter = new NewProductAdapter(productList, getContext(), "new");
+        pAdapter = new NewProductAdapter(myNewProductList, getContext(), "new");
         RecyclerView.LayoutManager pLayoutManager = new LinearLayoutManager(getContext());
         nRecyclerView.setLayoutManager(pLayoutManager);
         nRecyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   * Grocery App
-   * https://github.com/quintuslabs/GroceryStore
-   * Created on 18-Feb-2019.
-   * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
-   -->
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -140,7 +135,7 @@
                                 <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Total : "
+                                    android:text="Tiền hàng( Tạm tính )  : "
                                     android:textSize="18dp"
                                     android:textStyle="bold" />
 
@@ -178,7 +173,7 @@
                                 <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Shipping : "
+                                    android:text="Phí vận chuyển : "
                                     android:textSize="18dp"
                                     android:textStyle="bold" />
 
@@ -223,7 +218,7 @@
                                 <com.quintus.labs.grocerystore.customfonts.TextViewRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Total Amount : "
+                                    android:text="Tổng tiền : "
                                     android:textSize="18dp"
                                     android:textStyle="bold" />
 
@@ -270,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="BACK"
+                android:text="TRỞ LẠI"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text" />
         </LinearLayout>
@@ -293,7 +288,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="PLACE YOUR ORDER"
+                    android:text="ĐẶT HÀNG"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text" />
         </LinearLayout>

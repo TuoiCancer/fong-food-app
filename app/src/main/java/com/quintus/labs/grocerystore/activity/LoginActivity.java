@@ -13,11 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
-import com.quintus.labs.grocerystore.api.ApiService;
-import com.quintus.labs.grocerystore.fragment.HomeFragment;
+import com.quintus.labs.grocerystore.MyApi.ApiService;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.myModel.UserResult;
+import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +29,9 @@ public class LoginActivity  extends AppCompatActivity {
     private static EditText email, password;
     private static Button loginButton;
     private static TextView  signUp;
+    private static User userInfo;
+    Gson gson;
+    LocalStorage localStorage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class LoginActivity  extends AppCompatActivity {
         loginButton = findViewById(R.id.loginBtn);
         signUp = findViewById(R.id.createAccount);
 
+        Gson gson = new Gson();
+        localStorage = new LocalStorage(getApplicationContext());
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,19 +62,28 @@ public class LoginActivity  extends AppCompatActivity {
                 ApiService.apiService.login(user).enqueue(new Callback<UserResult>() {
                     @Override
                     public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+
                         Log.e("R", "onResponse: "+ response.body());
+                        if(response != null){
+                            UserResult userResult = response.body();
+                            if(userResult.getStatus() == 200){
+                                userInfo = userResult.getUser();
+                                String userStr = gson.toJson(userInfo);
+                                localStorage.createUserLoginSession(userStr);
+                            } else if (userResult.getStatus() == 404) {
+                                Toast.makeText(LoginActivity.this,userResult.getMessage().toString() , Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
                         startActivity(new Intent(LoginActivity.this , MainActivity.class));
                     }
 
                     @Override
                     public void onFailure(Call<UserResult> call, Throwable t) {
                         Log.d("response login API: ", t.toString());
-                        Toast.makeText(LoginActivity.this,"Something went wrong" , Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(LoginActivity.this,t.toString() , Toast.LENGTH_SHORT).show();
                     }
                 });
-                startActivity(new Intent(LoginActivity.this , MainActivity.class));
-
             }
         });
 

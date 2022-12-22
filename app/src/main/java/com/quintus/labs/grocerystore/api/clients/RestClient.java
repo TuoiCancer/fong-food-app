@@ -5,8 +5,8 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.quintus.labs.grocerystore.MyApi.ApiService;
 import com.quintus.labs.grocerystore.api.LoggingInterceptor;
-import com.quintus.labs.grocerystore.api.RestService;
 import com.quintus.labs.grocerystore.api.ToStringConverterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -17,11 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
-   public static final String BASE_URL = "http://localhost:8080/";
+   public static final String BASE_URL = "http://192.168.75.244:8080/";
 
     public static Retrofit RETROFIT = null;
     public static Retrofit RETROFIT1 = null;
-    public static RestService restService = null;
+    public static ApiService restService = null;
 
     public static Retrofit getClient() {
         if (RETROFIT == null) {
@@ -47,7 +47,7 @@ public class RestClient {
         return RETROFIT1;
     }
 
-    public static RestService getRestService(final Context context) {
+    public static ApiService getRestService(final Context context) {
         if (restService == null) {
             Gson gson = new GsonBuilder().setLenient().create();
             OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
@@ -60,7 +60,7 @@ public class RestClient {
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
-            restService = retrofit.create(RestService.class);
+            restService = retrofit.create(ApiService.class);
         }
         return restService;
     }

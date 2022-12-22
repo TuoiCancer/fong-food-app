@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.myModel.UserResult;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
@@ -117,7 +117,7 @@ public class AddressFragment extends Fragment {
                 } else if (_mobile.length() == 0) {
                     mobile.setError("Enter mobile Number");
                     mobile.requestFocus();
-                } else if (_mobile.length() < 10) {
+                } else if (_mobile.length() < 4) {
                     mobile.setError("Enter Corretct mobile Number");
                     mobile.requestFocus();
                 } else if (_address.length() == 0) {
@@ -137,9 +137,7 @@ public class AddressFragment extends Fragment {
 
 //                    saveUserAddress(userAddress);
 
-
                 }
-
 
             }
         });
@@ -148,41 +146,41 @@ public class AddressFragment extends Fragment {
 
     private void saveUserAddress(final User userAddress) {
 
-        Call<UserResult> call = RestClient.getRestService(getContext()).updateUser(userAddress);
-        call.enqueue(new Callback<UserResult>() {
-            @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-
-                    UserResult userResult = response.body();
-                    if (userResult.getCode() == 200) {
+//        Call<UserResult> call = RestClient.getRestService(getContext()).updateUser(userAddress);
+//        call.enqueue(new Callback<UserResult>() {
+//            @Override
+//            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//
+//                    UserResult userResult = response.body();
+//                    if (userResult.getCode() == 200) {
 //                        user.setAddress(userAddress.getAddress());
 //                        user.setState(userAddress.getState());
 //                        user.setCity(userAddress.getCity());
 //                        user.setZip(userAddress.getZip());
 //                        user.setZip(userAddress.getZip());
-                        userString = gson.toJson(user);
-                        localStorage.createUserLoginSession(userString);
-
-                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
-                        ft.replace(R.id.content_frame, new PaymentFragment());
-                        ft.commit();
-                    } else {
-                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
-
-            }
-        });
+//                        userString = gson.toJson(user);
+//                        localStorage.createUserLoginSession(userString);
+//
+//                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                        ft.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left);
+//                        ft.replace(R.id.content_frame, new PaymentFragment());
+//                        ft.commit();
+//                    } else {
+//                        Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserResult> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 

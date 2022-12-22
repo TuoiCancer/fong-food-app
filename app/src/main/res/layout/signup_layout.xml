@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   * Grocery App
-   * https://github.com/quintuslabs/GroceryStore
-   * Created on 18-Feb-2019.
-   * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
-   -->
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
@@ -57,11 +52,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
-                android:digits="abcdefghijklmnopqrstuvwxyz . ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
+                android:inputType="textEmailAddress"
                 android:hint="@string/email"
-                android:inputType="textCapWords"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
@@ -194,14 +188,6 @@
             android:layout_height="2px"
             android:background="@color/colorPrimary" />
 
-        <CheckBox
-            android:id="@+id/terms_conditions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/terms_conditions"
-            android:textColor="@color/text_color"
-            android:textSize="14sp" />
 
         <Button
             android:id="@+id/signUpBtn"

@@ -24,8 +24,7 @@ import com.quintus.labs.grocerystore.activity.MainActivity;
 import com.quintus.labs.grocerystore.activity.ProductViewActivity;
 import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.Cart;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -36,7 +35,7 @@ import java.util.List;
 
 public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAdapter.MyViewHolder> {
 
-    List<Product> productList;
+    List<MyProduct> myProductList;
     Context context;
     String Tag;
     LocalStorage localStorage;
@@ -44,13 +43,13 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
     List<Cart> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
 
-    public PopularProductAdapter(List<Product> productList, Context context) {
-        this.productList = productList;
+    public PopularProductAdapter(List<MyProduct> myProductList, Context context) {
+        this.myProductList = myProductList;
         this.context = context;
     }
 
-    public PopularProductAdapter(List<Product> productList, Context context, String tag) {
-        this.productList = productList;
+    public PopularProductAdapter(List<MyProduct> myProductList, Context context, String tag) {
+        this.myProductList = myProductList;
         this.context = context;
         Tag = tag;
     }
@@ -75,23 +74,23 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-        final Product product = productList.get(position);
+        final MyProduct myProduct = myProductList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
 
-        holder.title.setText(product.getName());
-        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-            holder.price.setText(product.getDiscount());
-            holder.org_price.setText(product.getPrice());
+        holder.title.setText(myProduct.getName());
+        if (myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
+            holder.price.setText(myProduct.getDiscount());
+            holder.org_price.setText(myProduct.getPrice());
             holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         } else {
-            holder.price.setText(product.getPrice());
+            holder.price.setText(myProduct.getPrice());
             holder.org_price.setVisibility(View.GONE);
         }
-        holder.attribute.setText(product.getAttribute());
-        Picasso.get().load( product.getImgUrl()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
+        holder.attribute.setText(myProduct.getAttribute());
+        Picasso.get().load( myProduct.getImgProduct()).error(R.drawable.no_image).into(holder.imageView, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
@@ -103,15 +102,14 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             }
         });
 
-
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
-                Log.d("Pop Product Adapter : ", cartList.get(i) + "-->" + product);
-                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                Log.d("Pop Product Adapter : ", cartList.get(i) + "-->" + myProduct);
+                if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
                     holder.shopNow.setVisibility(View.GONE);
                     holder.quantity_ll.setVisibility(View.VISIBLE);
                     holder.quantity.setText(cartList.get(i).getQuantity());
-                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + myProduct.getId());
                 }
             }
         }
@@ -122,18 +120,18 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             public void onClick(View v) {
                 holder.shopNow.setVisibility(View.GONE);
                 holder.quantity_ll.setVisibility(View.VISIBLE);
-                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-                    _price = product.getDiscount();
+                if (myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
+                    _price = myProduct.getDiscount();
                 } else {
-                    _price = product.getPrice();
+                    _price = myProduct.getPrice();
                 }
-                holder.currency.setText(product.getCurrency());
+                holder.currency.setText(myProduct.getCurrency());
                 _quantity = holder.quantity.getText().toString();
-                _attribute = product.getAttribute();
+                _attribute = myProduct.getAttribute();
                 _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
 
                 if (context instanceof MainActivity) {
-                    Cart cart = new Cart(product.getId(), product.getName(), product.getImage(), product.getCurrency(), _price, _attribute, _quantity, _subtotal);
+                    Cart cart = new Cart(String.valueOf(myProduct.getId()), myProduct.getName(), myProduct.getImgProduct(), myProduct.getCurrency(), _price, _attribute, _quantity, _subtotal);
                     cartList = ((BaseActivity) context).getCartList();
                     cartList.add(cart);
 
@@ -152,7 +150,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             public void onClick(View v) {
 
                 for (int i = 0; i < cartList.size(); i++) {
-                    if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                    if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
                         int total_item = Integer.parseInt(cartList.get(i).getQuantity());
                         total_item++;
                         Log.d("totalItem", total_item + "");
@@ -176,7 +174,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
 
                 if (Integer.parseInt(holder.quantity.getText().toString()) != 1) {
                     for (int i = 0; i < cartList.size(); i++) {
-                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
                             int total_item = Integer.parseInt(holder.quantity.getText().toString());
 
                             total_item--;
@@ -202,14 +200,14 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductViewActivity.class);
-                intent.putExtra("id", product.getId());
-                intent.putExtra("title", product.getName());
-                intent.putExtra("image", product.getImgUrl());
-                intent.putExtra("price", product.getPrice());
-                intent.putExtra("currency", product.getCurrency());
-                intent.putExtra("attribute", product.getAttribute());
-                intent.putExtra("discount", product.getDiscount());
-                intent.putExtra("description", product.getDescription());
+                intent.putExtra("id", myProduct.getId());
+                intent.putExtra("title", myProduct.getName());
+                intent.putExtra("image", myProduct.getImgProduct());
+                intent.putExtra("price", myProduct.getPrice());
+                intent.putExtra("currency", myProduct.getCurrency());
+                intent.putExtra("attribute", myProduct.getAttribute());
+                intent.putExtra("discount", myProduct.getDiscount());
+                intent.putExtra("description", myProduct.getDescription());
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 context.startActivity(intent);
@@ -222,7 +220,7 @@ public class PopularProductAdapter extends RecyclerView.Adapter<PopularProductAd
     @Override
     public int getItemCount() {
 
-        return productList.size();
+        return myProductList.size();
 
     }
 

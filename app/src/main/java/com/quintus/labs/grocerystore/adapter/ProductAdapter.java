@@ -24,8 +24,7 @@ import com.quintus.labs.grocerystore.activity.ProductActivity;
 import com.quintus.labs.grocerystore.activity.ProductViewActivity;
 import com.quintus.labs.grocerystore.interfaces.AddorRemoveCallbacks;
 import com.quintus.labs.grocerystore.model.Cart;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.util.Utils;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -36,7 +35,7 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
-    List<Product> productList;
+    List<MyProduct> myProductList;
     Context context;
     String Tag;
     int pQuantity = 1;
@@ -45,13 +44,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     List<Cart> cartList = new ArrayList<>();
     String _quantity, _price, _attribute, _subtotal;
 
-    public ProductAdapter(List<Product> productList, Context context) {
-        this.productList = productList;
+    public ProductAdapter(List<MyProduct> myProductList, Context context) {
+        this.myProductList = myProductList;
         this.context = context;
     }
 
-    public ProductAdapter(List<Product> productList, Context context, String tag) {
-        this.productList = productList;
+    public ProductAdapter(List<MyProduct> myProductList, Context context, String tag) {
+        this.myProductList = myProductList;
         this.context = context;
         Tag = tag;
     }
@@ -75,16 +74,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        final Product product = productList.get(position);
+        final MyProduct myProduct = myProductList.get(position);
         localStorage = new LocalStorage(context);
         gson = new Gson();
         cartList = ((BaseActivity) context).getCartList();
-        holder.title.setText(product.getName());
+        holder.title.setText(myProduct.getName());
 
-        if (product.getPrice() != null && product.getPrice().length() != 0 && product.getDiscount() != null && product.getDiscount().length() != 0) {
+        if (myProduct.getPrice() != null && myProduct.getPrice().length() != 0 && myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
 
-            double M = Double.parseDouble(product.getPrice());
-            double S = Double.parseDouble(product.getDiscount());
+            double M = Double.parseDouble(myProduct.getPrice());
+            double S = Double.parseDouble(myProduct.getDiscount());
             double discount = M - S;
 
             int disPercent = (int) Math.round((discount / M) * 100);
@@ -96,20 +95,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         } else {
             holder.offer.setVisibility(View.GONE);
         }
-        holder.attribute.setText(product.getAttribute());
-        holder.currency.setText(product.getCurrency());
-        if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-            holder.price.setText(product.getDiscount());
-            holder.org_price.setText(product.getPrice());
+        holder.attribute.setText(myProduct.getAttribute());
+        holder.currency.setText(myProduct.getCurrency());
+        if (myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
+            holder.price.setText(myProduct.getDiscount());
+            holder.org_price.setText(myProduct.getPrice());
             holder.org_price.setPaintFlags(holder.org_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         } else {
-            holder.price.setText(product.getPrice());
+            holder.price.setText(myProduct.getPrice());
             holder.org_price.setVisibility(View.GONE);
         }
 
         Picasso.get()
-                .load(product.getImgUrl())
+                .load(myProduct.getImgProduct())
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -123,26 +122,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 });
 
 
-        if (product.getDiscount() == null || product.getDiscount().length() == 0) {
+        if (myProduct.getDiscount() == null || myProduct.getDiscount().length() == 0) {
             holder.offer.setVisibility(View.GONE);
         }
 
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
-                if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
                     holder.addToCart.setVisibility(View.GONE);
                     holder.subTotal.setVisibility(View.VISIBLE);
                     holder.quantity.setText(cartList.get(i).getQuantity());
                     _quantity = cartList.get(i).getQuantity();
-                    if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-                        _price = product.getDiscount();
+                    if (myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
+                        _price = myProduct.getDiscount();
                     } else {
-                        _price = product.getPrice();
+                        _price = myProduct.getPrice();
                     }
 
                     _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
-                    holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
-                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + product.getId());
+                    holder.subTotal.setText(_quantity + "X" + _price + "= VND." + _subtotal);
+                    Log.d("Tag : ", cartList.get(i).getId() + "-->" + myProduct.getId());
                 }
             }
         } else {
@@ -160,7 +159,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     holder.quantity.setText(total_item + "");
                     for (int i = 0; i < cartList.size(); i++) {
 
-                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
 
                             // Log.d("totalItem", total_item + "");
 
@@ -187,7 +186,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                     total_item--;
                     holder.quantity.setText(total_item + "");
                     for (int i = 0; i < cartList.size(); i++) {
-                        if (cartList.get(i).getId().equalsIgnoreCase(product.getId())) {
+                        if (cartList.get(i).getId().equalsIgnoreCase(String.valueOf(myProduct.getId()))) {
 
                             //holder.quantity.setText(total_item + "");
                             //Log.d("totalItem", total_item + "");
@@ -226,19 +225,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 holder.subTotal.setVisibility(View.VISIBLE);
 
 
-                if (product.getDiscount() != null && product.getDiscount().length() != 0) {
-                    _price = product.getDiscount();
+                if (myProduct.getDiscount() != null && myProduct.getDiscount().length() != 0) {
+                    _price = myProduct.getDiscount();
                 } else {
-                    _price = product.getPrice();
+                    _price = myProduct.getPrice();
                 }
                 _quantity = holder.quantity.getText().toString();
-                _attribute = product.getAttribute();
+                _attribute = myProduct.getAttribute();
 
                 if (Integer.parseInt(_quantity) != 0) {
                     _subtotal = String.valueOf(Double.parseDouble(_price) * Integer.parseInt(_quantity));
                     holder.subTotal.setText(_quantity + "X" + _price + "= Rs." + _subtotal);
                     if (context instanceof ProductActivity) {
-                        Cart cart = new Cart(product.getId(), product.getName(), product.getImgUrl(), product.getCurrency(), _price, _attribute, _quantity, _subtotal);
+                        Cart cart = new Cart(String.valueOf(myProduct.getId()), myProduct.getName(), myProduct.getImgProduct(), myProduct.getCurrency(), _price, _attribute, _quantity, _subtotal);
                         cartList = ((BaseActivity) context).getCartList();
                         cartList.add(cart);
                         String cartStr = gson.toJson(cartList);
@@ -259,14 +258,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductViewActivity.class);
-                intent.putExtra("id", product.getId());
-                intent.putExtra("title", product.getName());
-                intent.putExtra("image", product.getImage());
-                intent.putExtra("price", product.getPrice());
-                intent.putExtra("currency", product.getCurrency());
-                intent.putExtra("attribute", product.getAttribute());
-                intent.putExtra("discount", product.getDiscount());
-                intent.putExtra("description", product.getDescription());
+                intent.putExtra("id", myProduct.getId());
+                intent.putExtra("title", myProduct.getName());
+                intent.putExtra("image", myProduct.getImgProduct());
+                intent.putExtra("price", myProduct.getPrice());
+                intent.putExtra("currency", myProduct.getCurrency());
+                intent.putExtra("attribute", myProduct.getAttribute());
+                intent.putExtra("discount", myProduct.getDiscount());
+                intent.putExtra("description", myProduct.getDescription());
 
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -279,7 +278,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public int getItemCount() {
 
-        return productList.size();
+        return myProductList.size();
     }
 
     @Override

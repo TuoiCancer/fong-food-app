@@ -17,13 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.quintus.labs.grocerystore.R;
-import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
 import com.quintus.labs.grocerystore.activity.MainActivity;
-import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
-import com.quintus.labs.grocerystore.util.NetworkCheck;
 import com.quintus.labs.grocerystore.util.Utils;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
@@ -61,7 +57,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         signUpButton = view.findViewById(R.id.signUpBtn);
         login = view.findViewById(R.id.already_user);
-        terms_conditions = view.findViewById(R.id.terms_conditions);
         signUpButton.setOnClickListener(SignUpFragment.this);
 
         // Setting text selector over textviews
@@ -101,7 +96,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
             case R.id.already_user:
                 // Replace login fragment
-                new LoginRegisterActivity().replaceLoginFragment();
+//                new LoginRegisterActivity().replaceLoginFragment();
                 break;
         }
 

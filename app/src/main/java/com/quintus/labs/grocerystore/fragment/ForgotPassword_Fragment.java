@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,23 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.quintus.labs.grocerystore.R;
-import com.quintus.labs.grocerystore.activity.LoginRegisterActivity;
-import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
 import com.quintus.labs.grocerystore.util.CustomToast;
-import com.quintus.labs.grocerystore.util.NotificationHelper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-/**
- * Grocery App
- * https://github.com/quintuslabs/GroceryStore
- * Created on 18-Feb-2019.
- * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
- */
 public class ForgotPassword_Fragment extends Fragment implements
         OnClickListener {
     private static View view;
@@ -102,7 +87,7 @@ public class ForgotPassword_Fragment extends Fragment implements
             case R.id.backToLoginBtn:
 
                 // Replace Login Fragment on Back Presses
-                new LoginRegisterActivity().replaceLoginFragment();
+//                new LoginRegisterActivity().replaceLoginFragment();
                 break;
 
             case R.id.forgot_button:
@@ -147,34 +132,34 @@ public class ForgotPassword_Fragment extends Fragment implements
     }
 
     private void resetPassword() {
-        showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).resetPassword(user);
-        call.enqueue(new Callback<UserResult>() {
-            @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 200) {
-                        new LoginRegisterActivity().replaceLoginFragment();
-                    } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Please try again");
-                    }
-                } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Please enter your valid Code");
-                }
-
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
-                Log.d("Error==> ", t.getMessage());
-                hideProgressDialog();
-            }
-        });
+//        showProgressDialog();
+//        Call<UserResult> call = RestClient.getRestService(getContext()).resetPassword(user);
+//        call.enqueue(new Callback<UserResult>() {
+//            @Override
+//            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//                    UserResult userResult = response.body();
+//                    if (userResult != null && userResult.getCode() == 200) {
+//                        new LoginRegisterActivity().replaceLoginFragment();
+//                    } else {
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Please try again");
+//                    }
+//                } else {
+//                    new CustomToast().Show_Toast(getActivity(), view,
+//                            "Please enter your valid Code");
+//                }
+//
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserResult> call, Throwable t) {
+//                Log.d("Error==> ", t.getMessage());
+//                hideProgressDialog();
+//            }
+//        });
 
     }
 
@@ -193,34 +178,34 @@ public class ForgotPassword_Fragment extends Fragment implements
     }
 
     private void forgotPassword() {
-        showProgressDialog();
-        Call<UserResult> call = RestClient.getRestService(getContext()).forgotPassword(user);
-        call.enqueue(new Callback<UserResult>() {
-            @Override
-            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
-                Log.d("Response :=>", response.body() + "");
-                if (response != null) {
-                    UserResult userResult = response.body();
-                    if (userResult != null && userResult.getCode() == 200) {
-                        String userString = gson.toJson(userResult.getUser());
-                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
-//                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
-                        reset_password_FL.setVisibility(View.VISIBLE);
-                        forgot_password_FL.setVisibility(View.GONE);
-                    } else {
-                        new CustomToast().Show_Toast(getActivity(), view,
-                                "Please enter your valid mobile number");
-                    }
-                }
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<UserResult> call, Throwable t) {
-                Log.d("Error==> ", t.getMessage());
-                hideProgressDialog();
-            }
-        });
+//        showProgressDialog();
+//        Call<UserResult> call = RestClient.getRestService(getContext()).forgotPassword(user);
+//        call.enqueue(new Callback<UserResult>() {
+//            @Override
+//            public void onResponse(Call<UserResult> call, Response<UserResult> response) {
+//                Log.d("Response :=>", response.body() + "");
+//                if (response != null) {
+//                    UserResult userResult = response.body();
+//                    if (userResult != null && userResult.getCode() == 200) {
+//                        String userString = gson.toJson(userResult.getUser());
+//                        NotificationHelper notificationHelper = new NotificationHelper(getContext());
+////                        notificationHelper.createNotification("Reset password Code", userResult.getUser().getReset_code());
+//                        reset_password_FL.setVisibility(View.VISIBLE);
+//                        forgot_password_FL.setVisibility(View.GONE);
+//                    } else {
+//                        new CustomToast().Show_Toast(getActivity(), view,
+//                                "Please enter your valid mobile number");
+//                    }
+//                }
+//                hideProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserResult> call, Throwable t) {
+//                Log.d("Error==> ", t.getMessage());
+//                hideProgressDialog();
+//            }
+//        });
     }
 
 

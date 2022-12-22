@@ -17,7 +17,34 @@ public class Product {
     public Product() {
     }
 
-    public Product(String id, String category, String name, String description, String attribute, String currency, String price, String discount, int imgUrl, String homepage) {
+//    public Product(String id, String category, String name, String description, String attribute, String currency, String price, String discount, int imgUrl, String homepage) {
+//        this.id = id;
+//        this.category = category;
+//        this.name = name;
+//        this.description = description;
+//        this.attribute = attribute;
+//        this.currency = currency;
+//        this.price = price;
+//        this.discount = discount;
+//        this.imgUrl = imgUrl;
+//        this.homepage = homepage;
+//    }
+
+//    public Product(String category, String name, String description, String attribute, String currency, String price, String discount, int imgUrl, String homepage) {
+//
+//        this.category = category;
+//        this.name = name;
+//        this.description = description;
+//        this.attribute = attribute;
+//        this.currency = currency;
+//        this.price = price;
+//        this.discount = discount;
+//        this.imgUrl = imgUrl;
+//        this.homepage = homepage;
+//    }
+
+    public Product(String id, String category, String name, String description, String attribute,
+                   String currency, String price, String discount, String image, String homepage) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -26,20 +53,7 @@ public class Product {
         this.currency = currency;
         this.price = price;
         this.discount = discount;
-        this.imgUrl = imgUrl;
-        this.homepage = homepage;
-    }
-
-    public Product(String category, String name, String description, String attribute, String currency, String price, String discount, int imgUrl, String homepage) {
-
-        this.category = category;
-        this.name = name;
-        this.description = description;
-        this.attribute = attribute;
-        this.currency = currency;
-        this.price = price;
-        this.discount = discount;
-        this.imgUrl = imgUrl;
+        this.image = image;
         this.homepage = homepage;
     }
 

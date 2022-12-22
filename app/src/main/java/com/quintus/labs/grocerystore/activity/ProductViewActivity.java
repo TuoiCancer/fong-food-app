@@ -54,7 +54,6 @@ public class ProductViewActivity extends BaseActivity {
         _id = intent.getStringExtra("id");
         _title = intent.getStringExtra("title");
         _image = intent.getStringExtra("image");
-        int _imgUrl = intent.getIntExtra("imgUrl", 0);
         _description = intent.getStringExtra("description");
         _price = intent.getStringExtra("price");
         _currency = intent.getStringExtra("currency");
@@ -100,7 +99,6 @@ public class ProductViewActivity extends BaseActivity {
         currency.setText(_currency);
         attribute.setText(_attribute);
         discount.setText(_discount);
-        Log.d(TAG, "Discount : " + _discount);
 
 
         if (_price != null && _price.length() != 0 && _price != "" && _discount != null && _discount.length() != 0 && _discount != "") {
@@ -119,7 +117,7 @@ public class ProductViewActivity extends BaseActivity {
             discount.setVisibility(View.GONE);
         }
         if (_image != null) {
-            Picasso.get().load(_imgUrl).error(R.drawable.no_image).into(imageView, new Callback() {
+            Picasso.get().load(_image).error(R.drawable.no_image).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);
@@ -131,7 +129,8 @@ public class ProductViewActivity extends BaseActivity {
                 }
             });
         }
-
+        // Voiws trường hợp trong cart list chứa sản phẩm mà người dùng thêm rồi, ví dụ : thêm 2 quả táo thì đến lúc xem thì vẫn
+        //sẽ nhìn thây 2 quả táo chứ không phải là nút thêm vào giỏ hàng .
         if (!cartList.isEmpty()) {
             for (int i = 0; i < cartList.size(); i++) {
                 Log.d("Product View Acti: ", cartList.get(i) + "-->" + _id);
@@ -140,7 +139,6 @@ public class ProductViewActivity extends BaseActivity {
                     quantityLL.setVisibility(View.VISIBLE);
                     quantity.setText(cartList.get(i).getQuantity());
                     cartId = i;
-
                 }
             }
         }
@@ -175,12 +173,10 @@ public class ProductViewActivity extends BaseActivity {
             }
         });
 
-
         inc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 _price = price.getText().toString();
-
 
                 // int total_item = Integer.parseInt(cartList.get(cartId).getQuantity());
                 int total_item = Integer.parseInt(quantity.getText().toString());

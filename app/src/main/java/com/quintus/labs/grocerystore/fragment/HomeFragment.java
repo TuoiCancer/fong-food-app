@@ -30,9 +30,10 @@ import com.quintus.labs.grocerystore.adapter.listCateAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
 import com.quintus.labs.grocerystore.model.Category;
-import com.quintus.labs.grocerystore.model.CategoryResult;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.myModel.CategoryResult;
+import com.quintus.labs.grocerystore.model.myModel.ProductResult;
+import com.quintus.labs.grocerystore.model.myModel.MyCategory;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
 import com.quintus.labs.grocerystore.model.listCate;
@@ -61,16 +62,16 @@ public class HomeFragment extends Fragment {
     Token token;
     private int dotscount;
     private ImageView[] dots;
-    private List<Category> categoryList = new ArrayList<>();
-    private List<Product> productList = new ArrayList<>();
-    private List<Product> popularProductList = new ArrayList<>();
+    private List<MyCategory> categoryList = new ArrayList<>();
+    private List<MyProduct> myProductList = new ArrayList<>();
+    private List<MyProduct> myNewProductList = new ArrayList<>();
+//    private List<com.quintus.labs.grocerystore.model.myModel.MyProduct> popularMyProductList = new ArrayList<>();
     private RecyclerView cateRecycleView, recyclerView, nRecyclerView, pRecyclerView;
     private CategoryAdapter mAdapter;
     private NewProductAdapter nAdapter;
     private PopularProductAdapter pAdapter;
     private Integer[] images = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4, R.drawable.slider5};
 
-    private List<listCate> listCate = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,22 +94,10 @@ public class HomeFragment extends Fragment {
         user = gson.fromJson(localStorage.getUserLogin(), User.class);
 //        token = "abc";
         getCategoryData();
-        getNewProduct();
+
         getPopularProduct();
 
-        listCate.add(new listCate("01","Trái cây"));
-        listCate.add(new listCate("02","Rau củ"));
-        listCate.add(new listCate("01","Đồ ăn nhanh"));
-        listCate.add(new listCate("01","Bánh ngọt"));
-        listCate.add(new listCate("01","Kem"));
-        listCate.add(new listCate("01","Đồ uống"));
-        listCate.add(new listCate("01","Kẹo dẻo"));
-
-        cateRecycleView = view.findViewById(R.id.list_category);
-        listCateAdapter listCateAdapter = new listCateAdapter(getContext(), listCate);
-        cateRecycleView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        cateRecycleView.setAdapter(listCateAdapter);
-
+//        getNewProduct();
 
         timer = new Timer();
         viewPager = view.findViewById(R.id.viewPager);
@@ -166,76 +155,36 @@ public class HomeFragment extends Fragment {
 
     private void getPopularProduct() {
 
-        popularProductList.add(new Product("01","Trái cây", "Táo" , "Táo sạch VietGap",
-                "1kg","VND" , "0",
-                "30.000",R.drawable.apple,"home"));
-        popularProductList.add(new Product("02","Bánh ngọt", "Kem bơ" , "Kem được làm từ sữa tươi",
-                "1 que","VND" , "0",
-                "8.000",R.drawable.icecream,"home"));
-        popularProductList.add(new Product("03","Đồ uống", "Coca-cola" , "Coca-cola từ USA",
-                "1 chai","VND" , "24.000",
-                "16.000",R.drawable.cocacola,"home"));
-        popularProductList.add(new Product("04","Rau củ", "Ngô" , "Ngô bắp sạch",
-                "1 bắp","VND" , "10.000",
-                "8.000",R.drawable.ngo,"home"));
-        popularProductList.add(new Product("05","Trà", "Cozy Tea" , "Trà đào cozy tea ",
-                "1 hộp","VND" , "50.000",
-                "40.000",R.drawable.cozy_tea,"home"));
-
         setupPopularProductRecycleView();
 
-//        showProgressDialog();
-//        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
-//        call.enqueue(new Callback<ProductResult>() {
-//            @Override
-//            public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-//                Log.d("Response :=>", response.body() + "");
-//                if (response != null) {
-//
-//                    ProductResult productResult = response.body();
-//                    if (productResult.getCode() == 200) {
-//
-//                        popularProductList = productResult.getProductList();
-//                        setupPopularProductRecycleView();
-//
-//                    }
-//
-//                }
-//
-//                hideProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductResult> call, Throwable t) {
-//
-//            }
-//        });
-    }
-
-    private void setupPopularProductRecycleView() {
-
-        pAdapter = new PopularProductAdapter(popularProductList, getContext(), "Home");
-        RecyclerView.LayoutManager pLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        pRecyclerView.setLayoutManager(pLayoutManager);
-        pRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        pRecyclerView.setAdapter(pAdapter);
-
-    }
-
-    private void getNewProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).newProducts(token);
+        Call<ProductResult> call = RestClient.getRestService(getContext()).getAllProduct();
         call.enqueue(new Callback<ProductResult>() {
             @Override
             public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
-                Log.d("Response :=>", response.body() + "");
+
                 if (response != null) {
 
                     ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    if (productResult.getStatus() == 200) {
+                        myProductList = productResult.getProductList();
+//                        Log.d("popMyProductList :=>", myProductList + "");
+                        for(int i=0;i<myProductList.size();i++){
+                            myProductList.get(i).setAttribute("unit");
+                            myProductList.get(i).setCurrency("VND");
+                            myProductList.get(i).setPrice(String.valueOf(Integer.parseInt(myProductList.get(i).getDiscount())+ 30000));
+                            myProductList.get(i).setHomepage("home");
+                        }
 
-                        productList = productResult.getProductList();
-                        setupProductRecycleView();
+                        myNewProductList.add(myProductList.get(19));
+                        myNewProductList.add(myProductList.get(18));
+                        myNewProductList.add(myProductList.get(17));
+                        myNewProductList.add(myProductList.get(16));
+                        myNewProductList.add(myProductList.get(15));
+
+                        Log.d("popMyProductList :=>", myNewProductList + "");
+                        setupPopularProductRecycleView();
+//                        setupProductRecycleView();
 
                     }
 
@@ -246,15 +195,27 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProductResult> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-                hideProgressDialog();
 
             }
         });
     }
 
+    private void setupPopularProductRecycleView() {
+
+        pAdapter = new PopularProductAdapter(myProductList, getContext(), "Home");
+        RecyclerView.LayoutManager pLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        pRecyclerView.setLayoutManager(pLayoutManager);
+        pRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        pRecyclerView.setAdapter(pAdapter);
+
+    }
+
+    private void getNewProduct() {
+        setupProductRecycleView();
+    }
+
     private void setupProductRecycleView() {
-        nAdapter = new NewProductAdapter(productList, getContext(), "Home");
+        nAdapter = new NewProductAdapter(myNewProductList, getContext(), "Home");
         RecyclerView.LayoutManager nLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         nRecyclerView.setLayoutManager(nLayoutManager);
         nRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -266,19 +227,22 @@ public class HomeFragment extends Fragment {
 
         showProgressDialog();
 
-        Call<CategoryResult> call = RestClient.getRestService(getContext()).allCategory(token);
+        Call<CategoryResult> call = RestClient.getRestService(getContext()).getAllCategory();
         call.enqueue(new Callback<CategoryResult>() {
             @Override
             public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-                Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
                     CategoryResult categoryResult = response.body();
-                    if (categoryResult.getCode() == 200) {
-
+                    if (categoryResult.getStatus() == 200) {
                         categoryList = categoryResult.getCategoryList();
-                        setupCategoryRecycleView();
+                        categoryList.get(0).setImgCate("https://m.economictimes.com/thumb/msid-93337841,width-1200,height-900,resizemode-4,imgsize-130870/1-25.jpg");
+                        categoryList.get(1).setImgCate("https://cdn.quantrinhahang.edu.vn/wp-content/uploads/2019/06/fast-food-la-gi.jpg");
+                        categoryList.get(2).setImgCate("https://vn-test-11.slatic.net/p/eed436bd8431e03d499f1e1d831fb5f6.jpg");
+                        categoryList.get(3).setImgCate("https://statics.vinpearl.com/tra-sua-da-nang-01_1630901177.jpg");
+                        categoryList.get(4).setImgCate("https://images.healthshots.com/healthshots/en/uploads/2022/04/17151621/fruit-salad-1600x900.jpg");
 
+                        setupCategoryRecycleView();
                     }
 
                 }

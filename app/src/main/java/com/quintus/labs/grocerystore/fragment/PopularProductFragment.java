@@ -18,10 +18,11 @@ import com.quintus.labs.grocerystore.R;
 import com.quintus.labs.grocerystore.adapter.PopularProductAdapter;
 import com.quintus.labs.grocerystore.api.clients.RestClient;
 import com.quintus.labs.grocerystore.helper.Data;
-import com.quintus.labs.grocerystore.model.Product;
-import com.quintus.labs.grocerystore.model.ProductResult;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
+import com.quintus.labs.grocerystore.model.myModel.MyProduct;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
+import com.quintus.labs.grocerystore.model.myModel.ProductResult;
 import com.quintus.labs.grocerystore.util.localstorage.LocalStorage;
 
 import java.util.ArrayList;
@@ -30,16 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-/**
- * Grocery App
- * https://github.com/quintuslabs/GroceryStore
- * Created on 18-Feb-2019.
- * Created by : Santosh Kumar Dash:- http://santoshdash.epizy.com
- */
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PopularProductFragment extends Fragment {
     RecyclerView pRecyclerView;
     Data data;
@@ -48,7 +40,7 @@ public class PopularProductFragment extends Fragment {
     Gson gson = new Gson();
     User user;
     Token token;
-    List<Product> productList = new ArrayList<>();
+    List<MyProduct> myProductList = new ArrayList<>();
     private PopularProductAdapter pAdapter;
 
 
@@ -85,7 +77,7 @@ public class PopularProductFragment extends Fragment {
 
     private void getPopularProduct() {
         showProgressDialog();
-        Call<ProductResult> call = RestClient.getRestService(getContext()).popularProducts(token);
+        Call<ProductResult> call = RestClient.getRestService(getContext()).getAllProduct();
         call.enqueue(new Callback<ProductResult>() {
             @Override
             public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
@@ -93,9 +85,9 @@ public class PopularProductFragment extends Fragment {
                 if (response != null) {
 
                     ProductResult productResult = response.body();
-                    if (productResult.getCode() == 200) {
+                    if (productResult.getStatus() == 200) {
 
-                        productList = productResult.getProductList();
+                        myProductList = productResult.getProductList();
                         setupPopularProductRecycleView();
 
                     }
@@ -114,7 +106,7 @@ public class PopularProductFragment extends Fragment {
 
     private void setupPopularProductRecycleView() {
 
-        pAdapter = new PopularProductAdapter(productList, getContext(), "pop");
+        pAdapter = new PopularProductAdapter(myProductList, getContext(), "pop");
         RecyclerView.LayoutManager pLayoutManager = new LinearLayoutManager(getContext());
         pRecyclerView.setLayoutManager(pLayoutManager);
         pRecyclerView.setItemAnimator(new DefaultItemAnimator());

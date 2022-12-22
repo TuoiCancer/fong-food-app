@@ -10,7 +10,7 @@ import com.quintus.labs.grocerystore.model.PlaceOrder;
 import com.quintus.labs.grocerystore.model.ProductResult;
 import com.quintus.labs.grocerystore.model.Token;
 import com.quintus.labs.grocerystore.model.User;
-import com.quintus.labs.grocerystore.model.UserResult;
+import com.quintus.labs.grocerystore.model.myModel.UserResult;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

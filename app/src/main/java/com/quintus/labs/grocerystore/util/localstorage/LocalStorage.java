@@ -13,7 +13,6 @@ public class LocalStorage {
     private static final String CART = "CART";
     private static final String ORDER = "ORDER";
 
-
     private static LocalStorage instance = null;
     SharedPreferences sharedPreferences;
     Editor editor;
@@ -52,7 +51,7 @@ public class LocalStorage {
         editor.remove(KEY_USER);
         editor.remove(KEY_USER_ADDRESS);
         editor.remove(IS_USER_LOGIN);
-        editor.remove(CART);
+//        editor.remove(CART);
         editor.remove(ORDER);
         editor.commit();
     }
